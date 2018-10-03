@@ -1,0 +1,3 @@
+﻿Soldados obedecem apenas uma área:
+Cada área desenhada (quadradinho) contém 1 soldado. Conforme se desenha, o soldado fica em todos os estados dentro desse quadrado (attack, defence e Wander). Nisso, caso um inimigo entre na vision range, ele irá ataca-lo. A vision range do quadrado é 3x3 com o quadrado inicial no centro. Cada quadrado próximo ira aumentar a área em 3x3 adicionando a área já existente. A área será desenhada conforme a unidade selecionada, e caso ultrapasse o limite existente, o usuário dever excluir áreas já existentes para pode pintar novas.
+Visual: a cada X waves, terá uma escolha que dita o estilo visual do game (apenas visual). Essas escolhas não afetarão mecânica. 

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2f451aafe792b4784c8b7995a32b04, type: 3}
+  m_Name: Pursuit
+  m_EditorClassIdentifier: 
+  speed: 0
+  destination: {x: 0, y: 0, z: 0}
+  trueState: {fileID: 11400000, guid: 9def1f857cd8ef344966376a6930ff03, type: 2}
+  falseState: {fileID: 11400000, guid: ed5a53f82ee71b94fbe9821d65eef84d, type: 2}

@@ -1,0 +1,20 @@
+# This file uses centimeters as units for non-parametric coordinates.
+
+mtllib CastleGround_UVED.mtl
+g default
+v -400.000000 0.000000 799.999924
+v 400.000000 0.000000 799.999924
+v -400.000000 0.000000 -800.000000
+v 400.000000 0.000000 -800.000000
+vt 0.738864 0.488427
+vt 0.993423 0.488427
+vt 0.993423 0.997546
+vt 0.738864 0.997546
+vn 0.000000 1.000000 0.000000
+vn 0.000000 1.000000 0.000000
+vn 0.000000 1.000000 0.000000
+vn 0.000000 1.000000 0.000000
+s off
+g polySurface31 Castel_Inside_LOW:polySurface2
+usemtl Castel_Inside_LOW:initialShadingGroup
+f 1/1/1 2/2/2 4/3/3 3/4/4
