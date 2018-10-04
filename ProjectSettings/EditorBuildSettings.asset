@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/BaseRustler/_Scenes/ArtSettings.unity
+    guid: b1b68b23c8ae5434cb79eeed38b1d6ad
+  - enabled: 1
+    path: Assets/BaseRustler/_Scenes/testShader.unity
+    guid: 228ac80cc93e89c4fae230fb9594d702
   m_configObjects: {}
