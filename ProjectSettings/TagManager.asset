@@ -4,9 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Obstacle
   - Enemy
-  - GridCell
-  - Castle
   layers:
   - Default
   - TransparentFX
@@ -16,9 +15,9 @@ TagManager:
   - UI
   - 
   - 
-  - GridCell
-  - LightGroundf
-  - LightWin
+  - PostProcessing
+  - Castle
+  - 
   - 
   - 
   - 
