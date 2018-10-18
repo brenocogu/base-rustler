@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnSys : MonoBehaviour {
-    public GameManager gm;
+    public Transform[] transformPoints;
     public GameObject enemyPrefab;
 
-    int enemyNumbers;
-    float timeInterval;
-
-    void Start() {
-        StartCoroutine(SpawnRoutine());
-    }
-
-    IEnumerator SpawnRoutine() {
-        enemyNumbers = Random.Range(4, 15);
-        timeInterval = Random.Range(0.5f, 4);
-        for (int i = 0; i < enemyNumbers; i++) {
-            Instantiate(enemyPrefab, transform.GetChild(Random.Range(0, transform.childCount - 1)).transform.position, transform.rotation);
-            yield return new WaitForSeconds(timeInterval);
+    public IEnumerator SpawnRoutine(int iterationCount) {
+        for (int i = iterationCount; i > 0; i--) { //improved for loop
+            int spawnChance = Random.Range(0, 11);
+            switch(spawnChance) {
+                default:
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    yield return new WaitForSeconds(Random.Range(0.25f, 5.5f));
+                    continue;
+                case 9:
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    yield return new WaitForSeconds(Random.Range(0.25f, 5.5f));
+                    continue;
+                case 10:
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    Instantiate(enemyPrefab, transformPoints[Random.Range(0, transformPoints.Length)], true);
+                    yield return new WaitForSeconds(Random.Range(0.25f, 5.5f));
+                    continue;
+            }
         }
-        StartCoroutine(SpawnRoutine());
     }
 }

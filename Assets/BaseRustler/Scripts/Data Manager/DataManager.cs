@@ -8,7 +8,6 @@ using System;
 public class DataManager {
     static BinaryFormatter formatter = new BinaryFormatter();
 
-    //TODO Scene Persistence IMPORTANT
     public static void SaveData(string name, object objtoSave) {
         if (File.Exists(Application.persistentDataPath + '/' + name))
         {

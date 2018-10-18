@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{973242F3-7935-26A9-32F9-F3322ED4BEC5}</ProjectGuid>
+    <ProjectGuid>{570A4D51-FD0F-2E59-A773-1620C39860AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>NavMeshComponentsExamples</AssemblyName>
@@ -340,7 +340,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="NavMeshComponents.csproj">
-      <Project>{CFB529F6-283C-5707-4F30-F6CA1BE90F93}</Project>      <Name>NavMeshComponents</Name>    </ProjectReference>
+      <Project>{74DDF0F9-F72B-4131-10FF-643ED41D00A8}</Project>      <Name>NavMeshComponents</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

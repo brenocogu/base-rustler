@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B5CD2E82-71FB-235E-F350-523283767384}</ProjectGuid>
+    <ProjectGuid>{A44E422F-4822-6CF0-8B7E-D43B28ECE865}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>NavMeshComponentsPlaymodeTests</AssemblyName>
@@ -340,7 +340,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="NavMeshComponents.csproj">
-      <Project>{CFB529F6-283C-5707-4F30-F6CA1BE90F93}</Project>      <Name>NavMeshComponents</Name>    </ProjectReference>
+      <Project>{74DDF0F9-F72B-4131-10FF-643ED41D00A8}</Project>      <Name>NavMeshComponents</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

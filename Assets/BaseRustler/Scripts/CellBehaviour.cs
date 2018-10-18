@@ -77,17 +77,23 @@ public class CellBehaviour : MonoBehaviour {
     }
 
     void AddEnemys(GameObject enemy) {
-        if (assingnedSoldiers != null)
+        if (assingnedSoldiers != null && enemy != null)
         {
             enemysInRange.Add(enemy);
-			enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
             foreach (GameObject soldier in assingnedSoldiers)
             {
+                if (enemy == null) {
+                    break;
+                }
                 if (soldier.GetComponent<SoldierBrain>().enemyTarget == null) //TODO peso dos inimigos. E.g: Inimigo peso 1 = 1 soldado, inimigo peso 3 = os 3 soldados
                 {
                     soldier.GetComponent<SoldierBrain>().GetEnemy(enemy);
                     break;
                 }
+            }
+            if (enemy != null)
+            {
+                enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
             }
         }
     }

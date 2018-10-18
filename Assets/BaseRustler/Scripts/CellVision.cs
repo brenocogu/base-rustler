@@ -16,8 +16,7 @@ public class CellVision : MonoBehaviour {
 
     void OnTriggerEnter(Collider coll) {
         if (coll.gameObject.tag == "Enemy") {
-            SendMessageUpwards("AddEnemys", coll.gameObject, SendMessageOptions.DontRequireReceiver);
-            //TODO setar no script base dos inimigos uma referencia para célula para declarar ONDISABLE
+            SendMessageUpwards("AddEnemys", coll.gameObject, SendMessageOptions.DontRequireReceiver);           
         }
     }
 
@@ -26,7 +25,6 @@ public class CellVision : MonoBehaviour {
         if (coll.gameObject.tag == "Enemy")
         {
             SendMessageUpwards("RemoveEnemy", coll.gameObject, SendMessageOptions.DontRequireReceiver);
-            //TODO setar no script base dos inimigos uma referencia para célula para declarar ONDISABLE
         }
     }
 }

@@ -14,7 +14,7 @@ public class SoldierMoveWander : SoldierMove {
         }
         
         else if(agentBrain.gameObject.GetComponent<NavMeshAgent>().remainingDistance < 1)
-        { //TODO Arrumar delay quando transiona entre STANDBY => Wander
+        {
             if (!agentBrain.isDelaying){
                 agentBrain.StopAllCoroutines();
                 agentBrain.StartDelay(2f, 5f);
