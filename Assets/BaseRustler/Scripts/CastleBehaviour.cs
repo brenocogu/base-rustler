@@ -61,15 +61,13 @@ public class CastleBehaviour : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter(Collider coll) {
-        if (coll.gameObject.tag == "Enemy") {
-            coll.gameObject.SetActive(false);
-            hp--;
-            if (hp <= 0) {
-                //Show G.O. Canvas
-                Time.timeScale = 0;
-                goCanvas.gameObject.SetActive(true);
-            }
+    public void HurtCastle() {
+        hp--;
+        if (hp <= 0)
+        {
+            //Show G.O. Canvas
+            Time.timeScale = 0;
+            goCanvas.gameObject.SetActive(true);
         }
     }
 }

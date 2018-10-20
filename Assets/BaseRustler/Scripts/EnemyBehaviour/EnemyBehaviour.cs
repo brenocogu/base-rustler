@@ -11,6 +11,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     [HideInInspector]
     public List<CellBehaviour> cell;
+    [HideInInspector]
+    public List<SoldierBrain> soldiers;
 	// Use this for initialization
 	void Start () {
         gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
@@ -28,15 +30,30 @@ public class EnemyBehaviour : MonoBehaviour {
         }
     }
 
-    void KillEnemy() {
+    public void KillEnemy() {
         gm.DecreaseEnemyCount();
         if (cell != null)
         {
             foreach (CellBehaviour cel in cell)
             {
-                cel.SendMessage("RemoveEnemy", this.gameObject, SendMessageOptions.DontRequireReceiver);
+                cel.RemoveEnemy(this.gameObject);
+            }
+        }
+        if (soldiers != null)
+        {
+            foreach (SoldierBrain soldier in soldiers)
+            {
+                soldier.RemoveEnemy(false);
             }
         }
         gameObject.SetActive(false);
+    }
+
+    void OnTriggerEnter(Collider coll)
+    {
+        if (coll.gameObject.tag == "Castle") {
+            coll.gameObject.GetComponent<CastleBehaviour>().HurtCastle();
+            KillEnemy();
+        }
     }
 }

@@ -71,24 +71,28 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.L)) {
             resourcesManager.UpgradeAttribute("gold");
         }
-
-        if (Input.touchCount == 1 || Input.GetMouseButton(0)) {
-            RaycastHit hit = new RaycastHit();
-            Ray clickRay = Camera.main.ScreenPointToRay( (Input.touchCount > 0) ? Input.GetTouch(0).position : (Vector2)Input.mousePosition);
-            if (Physics.Raycast(clickRay, out hit,Mathf.Infinity, ignoredLayer)) {
-                if (hit.collider.gameObject.tag == "GridCell" && gridIsVisible) {
-                    if (Input.GetKey(KeyCode.X))
+        if (Input.touchCount == 1 || Input.GetMouseButton(0)) { 
+                //Touch touch = Input.GetTouch(0);
+                RaycastHit hit = new RaycastHit();
+                Ray clickRay = Camera.main.ScreenPointToRay((Input.touchCount > 0) ? Input.GetTouch(0).position : (Vector2)Input.mousePosition);
+                if (Physics.Raycast(clickRay, out hit, Mathf.Infinity, ignoredLayer))
+                {
+                    if (hit.collider.gameObject.tag == "GridCell" && gridIsVisible)
                     {
-                        hit.collider.gameObject.SendMessage("DesselectCell", SendMessageOptions.DontRequireReceiver);
+                        if (Input.GetKey(KeyCode.X))
+                        {
+                            hit.collider.gameObject.SendMessage("DesselectCell", SendMessageOptions.DontRequireReceiver);
+                        }
+                        else
+                        {
+                            hit.collider.gameObject.SendMessage("SelectCell", spawnedSoliders, SendMessageOptions.DontRequireReceiver);
+                        }
                     }
-                    else {
-                        hit.collider.gameObject.SendMessage("SelectCell", spawnedSoliders, SendMessageOptions.DontRequireReceiver);
+                    if (hit.collider.gameObject.tag == "Castle")
+                    {
+                        hit.collider.gameObject.SendMessage("SelectCastle", SendMessageOptions.DontRequireReceiver);
                     }
-                    }
-                if (hit.collider.gameObject.tag == "Castle") {
-                    hit.collider.gameObject.SendMessage("SelectCastle", SendMessageOptions.DontRequireReceiver);
                 }
-            }
         }
 	}
 

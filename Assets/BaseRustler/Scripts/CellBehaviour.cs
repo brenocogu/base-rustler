@@ -98,14 +98,14 @@ public class CellBehaviour : MonoBehaviour {
         }
     }
 
-    void RemoveEnemy(GameObject enemy)
+    public void RemoveEnemy(GameObject enemy)
     {
         enemysInRange.Remove(enemy);
         enemy.GetComponent<EnemyBehaviour>().cell = null;
         //if (enemy.GetComponent<EnemyBehaviour>().hp <= 0) {
           //  GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().SendMessage("AddGold", SendMessageOptions.DontRequireReceiver);
         //}
-        foreach (GameObject soldier in assingnedSoldiers)
+        /*foreach (GameObject soldier in assingnedSoldiers)
         {
             if (soldier.GetComponent<SoldierBrain>().enemyTarget != null && soldier.GetComponent<SoldierBrain>().enemyTarget == enemy)
             {
@@ -114,6 +114,6 @@ public class CellBehaviour : MonoBehaviour {
                     soldier.GetComponent<SoldierBrain>().GetEnemy(enemysInRange[enemysInRange.Count-1]);
                 }
             }
-        }
+        }*/
     }
 }

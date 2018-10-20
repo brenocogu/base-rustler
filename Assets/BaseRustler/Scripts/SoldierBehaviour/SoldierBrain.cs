@@ -9,9 +9,8 @@ public class SoldierBrain : MonoBehaviour {
     public bool assignedToarea, destinationSet;
 
     [HideInInspector]
-    public GameObject enemyTarget;
+    public GameObject enemyTarget, shortEnemy;
 
-    bool canAttack;
     public float attackSpeed, attackDamage;
 
     [HideInInspector]
@@ -23,23 +22,11 @@ public class SoldierBrain : MonoBehaviour {
         agentNav = gameObject.GetComponent<NavMeshAgent>();
         agentNav.speed = agentSpeed;
         destinationSet = false;
-        canAttack = true;
     }
 
 	// Update is called once per frame
 	void Update () {
         soldierMove.DoAction(this);
-
-        if (enemyTarget != null) {
-            if (Vector3.Distance(transform.position, enemyTarget.transform.position) < 2) {
-                if (canAttack)
-                {
-                    canAttack = false;
-                    enemyTarget.SendMessage("TakeHit", attackDamage, SendMessageOptions.DontRequireReceiver);
-                    StartCoroutine(AttackCD());
-                }
-            }
-        }
 	}
 
     public void StartDelay(float min, float max) {
@@ -75,19 +62,36 @@ public class SoldierBrain : MonoBehaviour {
         destinationSet = false;
     }
 
-    public void GetEnemy(GameObject enemy) {
-        enemyTarget = enemy;
-        soldierMove.ChangeState(this, true);
+    public void GetEnemy(GameObject enemy, bool shortEnemyTargeting = false) {
+        if (shortEnemyTargeting)
+        {
+
+        }
+        else
+        {
+            enemyTarget = enemy;
+            soldierMove.ChangeState(this, true);
+        }
     }
 
-    public void RemoveEnemy() {
-        enemyTarget = null;
-        soldierMove.ChangeState(this, true);
+    public void RemoveEnemy(bool cellRemoval = true) {
+        Debug.Log("aa");
+        if (shortEnemy != null)
+        {
+            enemyTarget = shortEnemy;
+        }
+        if(!cellRemoval)
+        {
+            
+            enemyTarget = null;
+            soldierMove.ChangeState(this, true);
+        }
     }
 
     IEnumerator AttackCD() {
         yield return new WaitForSeconds(attackSpeed);
-        canAttack = true;
+        enemyTarget.SendMessage("TakeHit", attackDamage, SendMessageOptions.DontRequireReceiver);
+        StartCoroutine(AttackCD());
     }
 
     public void UnassignSoldier() {
