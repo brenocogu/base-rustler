@@ -16,7 +16,7 @@ public class TestInput : MonoBehaviour {
         if (Input.touchCount == 1 || Input.GetMouseButton(0))
         {
             Touch touch = Input.GetTouch(0);
-            if ((touch.deltaTime > 0.2f && touch.phase == TouchPhase.Ended) || Input.GetMouseButton(0))
+            if ((touch.deltaTime < 0.2f && touch.phase == TouchPhase.Ended))
             { //Characterize an click in a mobile device OR for develop options, record the MouseButton0
                 text.text = "TAP";
             }
