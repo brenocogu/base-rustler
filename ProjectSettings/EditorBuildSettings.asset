@@ -5,13 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/BaseRustler/_Scenes/ArtSettings.unity
-    guid: b1b68b23c8ae5434cb79eeed38b1d6ad
-  - enabled: 0
+  - enabled: 1
     path: Assets/BaseRustler/_Scenes/testShader.unity
     guid: 228ac80cc93e89c4fae230fb9594d702
-  - enabled: 1
-    path: Assets/BaseRustler/INPUT TEST/TESTINPUT.unity
-    guid: 79c5a7ad2f496774cbc0c6ce024d2f75
   m_configObjects: {}

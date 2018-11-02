@@ -10,6 +10,7 @@ public class SoldierBrain : MonoBehaviour {
 
     [HideInInspector]
     public GameObject enemyTarget, shortEnemy;
+    EnemyBehaviour enemyTGbrain;
 
     public float attackSpeed, attackDamage;
 
@@ -44,11 +45,21 @@ public class SoldierBrain : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter(Collider coll)
+    void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.tag == "Enemy") {
-            soldierMove = null;
-            gameObject.GetComponent<NavMeshAgent>().destination = coll.gameObject.transform.position;
+            //soldierMove = null;
+            //gameObject.GetComponent<NavMeshAgent>().destination = coll.gameObject.transform.position;
+            StartCoroutine(AttackCD());
+        }
+    }
+
+    void OnCollisionExit(Collision coll)
+    {
+        if (coll.gameObject.tag == "Enemy")
+        {
+            //soldierMove = null;
+            StopCoroutine(AttackCD());
         }
     }
 
@@ -63,19 +74,15 @@ public class SoldierBrain : MonoBehaviour {
     }
 
     public void GetEnemy(GameObject enemy, bool shortEnemyTargeting = false) {
-        if (shortEnemyTargeting)
-        {
-
-        }
-        else
+        if (!shortEnemyTargeting)
         {
             enemyTarget = enemy;
             soldierMove.ChangeState(this, true);
+            enemyTGbrain = enemyTarget.GetComponent<EnemyBehaviour>();
         }
     }
 
     public void RemoveEnemy(bool cellRemoval = true) {
-        Debug.Log("aa");
         if (shortEnemy != null)
         {
             enemyTarget = shortEnemy;
@@ -90,7 +97,7 @@ public class SoldierBrain : MonoBehaviour {
 
     IEnumerator AttackCD() {
         yield return new WaitForSeconds(attackSpeed);
-        enemyTarget.SendMessage("TakeHit", attackDamage, SendMessageOptions.DontRequireReceiver);
+        enemyTGbrain.TakeHit(attackDamage);
         StartCoroutine(AttackCD());
     }
 

@@ -80,6 +80,10 @@ public class CellBehaviour : MonoBehaviour {
         if (assingnedSoldiers != null && enemy != null)
         {
             enemysInRange.Add(enemy);
+            if (enemy != null)
+            {
+                enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
+            }
             foreach (GameObject soldier in assingnedSoldiers)
             {
                 if (enemy == null) {
@@ -91,10 +95,6 @@ public class CellBehaviour : MonoBehaviour {
                     break;
                 }
             }
-            if (enemy != null)
-            {
-                enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
-            }
         }
     }
 
@@ -102,18 +102,9 @@ public class CellBehaviour : MonoBehaviour {
     {
         enemysInRange.Remove(enemy);
         enemy.GetComponent<EnemyBehaviour>().cell = null;
-        //if (enemy.GetComponent<EnemyBehaviour>().hp <= 0) {
-          //  GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().SendMessage("AddGold", SendMessageOptions.DontRequireReceiver);
-        //}
-        /*foreach (GameObject soldier in assingnedSoldiers)
-        {
-            if (soldier.GetComponent<SoldierBrain>().enemyTarget != null && soldier.GetComponent<SoldierBrain>().enemyTarget == enemy)
-            {
-                soldier.GetComponent<SoldierBrain>().RemoveEnemy();
-                if (enemysInRange.Count > 0) {
-                    soldier.GetComponent<SoldierBrain>().GetEnemy(enemysInRange[enemysInRange.Count-1]);
-                }
-            }
-        }*/
+        /*
+          index = enemy.GetComponent<EnemyBehaviour>().cell.IndexOf(gameObject.GetComponent<CellBehaviour>());
+        enemy.GetComponent<EnemyBehaviour>().cell.RemoveAt(index);
+         */
     }
 }
