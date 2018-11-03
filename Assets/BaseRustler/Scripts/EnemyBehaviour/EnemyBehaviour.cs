@@ -25,28 +25,31 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public void TakeHit(float damage) {
         hp -= damage;
-        if (hp <= 0) {
+        if (hp == 0) {
             KillEnemy();
         }
     }
 
     public void KillEnemy() {
-        gm.DecreaseEnemyCount();
-        if (cell != null)
-        {
-            foreach (CellBehaviour cel in cell)
+        if (hp <= 0) {
+            gm.DecreaseEnemyCount();
+            if (cell != null)
             {
-                cel.RemoveEnemy(this.gameObject);
+                foreach (CellBehaviour cel in cell)
+                {
+                    cel.RemoveEnemy(this.gameObject);
+                }
             }
-        }
-        if (soldiers != null)
-        {
-            foreach (SoldierBrain soldier in soldiers)
+            if (soldiers != null)
             {
-                soldier.RemoveEnemy(false);
+                Debug.Log(soldiers.Count);
+                foreach (SoldierBrain soldier in soldiers)
+                {
+                    soldier.RemoveEnemy(false);
+                }
             }
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
     }
 
     void OnTriggerEnter(Collider coll)
@@ -54,6 +57,10 @@ public class EnemyBehaviour : MonoBehaviour {
         if (coll.gameObject.tag == "Castle") {
             coll.gameObject.GetComponent<CastleBehaviour>().HurtCastle();
             KillEnemy();
+        }
+
+        if (coll.gameObject.tag == "CellVision") {
+            cell.Add(coll.gameObject.transform.parent.GetComponent<CellBehaviour>());
         }
     }
 }

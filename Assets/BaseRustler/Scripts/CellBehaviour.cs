@@ -69,6 +69,7 @@ public class CellBehaviour : MonoBehaviour {
             foreach (GameObject soldier in soldiers) {
                 if (soldier.GetComponent<SoldierBrain>() != null && !soldier.GetComponent<SoldierBrain>().assignedToarea) {
                     soldier.GetComponent<SoldierBrain>().AssignArea(max, min);
+                    soldier.GetComponent<SoldierBrain>().cellHead = gameObject.GetComponent<CellBehaviour>();
                     assingnedSoldiers.Add(soldier);
                     break;
                 }
@@ -82,18 +83,46 @@ public class CellBehaviour : MonoBehaviour {
             enemysInRange.Add(enemy);
             if (enemy != null)
             {
-                enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
+                //enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
             }
+            AssignEnemy();
+            
+
+        }
+    }
+
+    public void SetFree() {
+        AssignEnemy();
+    }
+
+    int savedIndex, actualIndex;
+    public void AssignEnemy() {
+        
+        if (enemysInRange.Count >= 1) {
             foreach (GameObject soldier in assingnedSoldiers)
             {
-                if (enemy == null) {
+                actualIndex++;
+                if (enemysInRange.Count < 1)
+                {
                     break;
                 }
                 if (soldier.GetComponent<SoldierBrain>().enemyTarget == null) //TODO peso dos inimigos. E.g: Inimigo peso 1 = 1 soldado, inimigo peso 3 = os 3 soldados
                 {
-                    soldier.GetComponent<SoldierBrain>().GetEnemy(enemy);
+                    if (enemysInRange.Count < 1)
+                    {
+                        break;
+                    }
+                    savedIndex = actualIndex;
                     break;
                 }
+                if (enemysInRange.Count < 1)
+                {
+                    break;
+                }
+            }
+            if (enemysInRange.Count > 1)
+            {
+                assingnedSoldiers[savedIndex].GetComponent<SoldierBrain>().GetEnemy(enemysInRange[enemysInRange.Count - 1]);
             }
         }
     }

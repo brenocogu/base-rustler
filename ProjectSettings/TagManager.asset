@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - GridCell
   - Castle
+  - CellVision
   layers:
   - Default
   - TransparentFX

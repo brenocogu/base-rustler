@@ -18,6 +18,7 @@ public class SoldierBrain : MonoBehaviour {
     public Vector3 areamax, areamin;
     public float agentSpeed;
     NavMeshAgent agentNav;
+    public CellBehaviour cellHead;
     // Use this for initialization
     void Start() {
         agentNav = gameObject.GetComponent<NavMeshAgent>();
@@ -47,7 +48,7 @@ public class SoldierBrain : MonoBehaviour {
 
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.tag == "Enemy") {
+        if (coll.gameObject == enemyTGbrain.gameObject) {
             //soldierMove = null;
             //gameObject.GetComponent<NavMeshAgent>().destination = coll.gameObject.transform.position;
             StartCoroutine(AttackCD());
@@ -56,7 +57,7 @@ public class SoldierBrain : MonoBehaviour {
 
     void OnCollisionExit(Collision coll)
     {
-        if (coll.gameObject.tag == "Enemy")
+        if (coll.gameObject == enemyTGbrain.gameObject)
         {
             //soldierMove = null;
             StopCoroutine(AttackCD());
@@ -79,6 +80,7 @@ public class SoldierBrain : MonoBehaviour {
             enemyTarget = enemy;
             soldierMove.ChangeState(this, true);
             enemyTGbrain = enemyTarget.GetComponent<EnemyBehaviour>();
+            enemyTGbrain.soldiers.Add(this);
         }
     }
 
@@ -89,7 +91,7 @@ public class SoldierBrain : MonoBehaviour {
         }
         if(!cellRemoval)
         {
-            
+            cellHead.SetFree();
             enemyTarget = null;
             soldierMove.ChangeState(this, true);
         }

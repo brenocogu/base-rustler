@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        goldTxt.text = "" + gold;
+        goldTxt.text = "" + enemyCount;
         if (Input.GetKeyDown(KeyCode.Z)) {
             ToggleGrid();
         }
