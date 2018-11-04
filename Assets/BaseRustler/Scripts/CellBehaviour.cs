@@ -8,15 +8,15 @@ public class CellBehaviour : MonoBehaviour {
     public Color assignColor;
     Color oldColor;
     Vector3 min, max;
-    List<GameObject> assingnedSoldiers;
+    LinkedList<GameObject> assingnedSoldiers;
     public GameObject visionRange;
 
 
-    List<GameObject> enemysInRange;
+    LinkedList<GameObject> enemysInRange;
 
     void Start() {
-        assingnedSoldiers = new List<GameObject>();
-        enemysInRange = new List<GameObject>();
+        assingnedSoldiers = new LinkedList<GameObject>();
+        enemysInRange = new LinkedList<GameObject>();
         spr = GetComponent<SpriteRenderer>();
         oldColor = spr.color;
         min = gameObject.GetComponent<Renderer>().bounds.min;
@@ -60,7 +60,7 @@ public class CellBehaviour : MonoBehaviour {
             foreach (GameObject soldier in assingnedSoldiers) {
                 soldier.GetComponent<SoldierBrain>().UnassignSoldier();
             }
-            assingnedSoldiers.RemoveRange(0, assingnedSoldiers.Count);
+            assingnedSoldiers.Clear();
         }
     }
 
@@ -70,7 +70,7 @@ public class CellBehaviour : MonoBehaviour {
                 if (soldier.GetComponent<SoldierBrain>() != null && !soldier.GetComponent<SoldierBrain>().assignedToarea) {
                     soldier.GetComponent<SoldierBrain>().AssignArea(max, min);
                     soldier.GetComponent<SoldierBrain>().cellHead = gameObject.GetComponent<CellBehaviour>();
-                    assingnedSoldiers.Add(soldier);
+                    assingnedSoldiers.AddFirst(soldier);
                     break;
                 }
             }
@@ -80,7 +80,7 @@ public class CellBehaviour : MonoBehaviour {
     void AddEnemys(GameObject enemy) {
         if (assingnedSoldiers != null && enemy != null)
         {
-            enemysInRange.Add(enemy);
+            enemysInRange.AddLast(enemy);
             if (enemy != null)
             {
                 //enemy.GetComponent<EnemyBehaviour>().cell.Add(this);
@@ -95,13 +95,11 @@ public class CellBehaviour : MonoBehaviour {
         AssignEnemy();
     }
 
-    int savedIndex, actualIndex;
     public void AssignEnemy() {
-        
+        //GameObject[] enemyREF = enemysInRange.ToArray();
         if (enemysInRange.Count >= 1) {
             foreach (GameObject soldier in assingnedSoldiers)
             {
-                actualIndex++;
                 if (enemysInRange.Count < 1)
                 {
                     break;
@@ -112,17 +110,16 @@ public class CellBehaviour : MonoBehaviour {
                     {
                         break;
                     }
-                    savedIndex = actualIndex;
+                    if (enemysInRange.Last.Value.activeSelf)
+                    {
+                        soldier.GetComponent<SoldierBrain>().GetEnemy(enemysInRange.Last.Value);
+                    }
                     break;
                 }
                 if (enemysInRange.Count < 1)
                 {
                     break;
                 }
-            }
-            if (enemysInRange.Count > 1)
-            {
-                assingnedSoldiers[savedIndex].GetComponent<SoldierBrain>().GetEnemy(enemysInRange[enemysInRange.Count - 1]);
             }
         }
     }
@@ -131,9 +128,5 @@ public class CellBehaviour : MonoBehaviour {
     {
         enemysInRange.Remove(enemy);
         enemy.GetComponent<EnemyBehaviour>().cell = null;
-        /*
-          index = enemy.GetComponent<EnemyBehaviour>().cell.IndexOf(gameObject.GetComponent<CellBehaviour>());
-        enemy.GetComponent<EnemyBehaviour>().cell.RemoveAt(index);
-         */
     }
 }

@@ -48,10 +48,14 @@ public class SoldierBrain : MonoBehaviour {
 
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject == enemyTGbrain.gameObject) {
-            //soldierMove = null;
-            //gameObject.GetComponent<NavMeshAgent>().destination = coll.gameObject.transform.position;
-            StartCoroutine(AttackCD());
+        if (enemyTGbrain != null)
+        {
+            if (coll.gameObject == enemyTGbrain.gameObject)
+            {
+                //soldierMove = null;
+                //gameObject.GetComponent<NavMeshAgent>().destination = coll.gameObject.transform.position;
+                StartCoroutine(AttackCD());
+            }
         }
     }
 
@@ -80,7 +84,7 @@ public class SoldierBrain : MonoBehaviour {
             enemyTarget = enemy;
             soldierMove.ChangeState(this, true);
             enemyTGbrain = enemyTarget.GetComponent<EnemyBehaviour>();
-            enemyTGbrain.soldiers.Add(this);
+            enemyTGbrain.soldiers.Push(this);
         }
     }
 

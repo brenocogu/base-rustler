@@ -12,9 +12,10 @@ public class EnemyBehaviour : MonoBehaviour {
     [HideInInspector]
     public List<CellBehaviour> cell;
     [HideInInspector]
-    public List<SoldierBrain> soldiers;
+    public Stack<SoldierBrain> soldiers;
 	// Use this for initialization
 	void Start () {
+        soldiers = new Stack<SoldierBrain>();
         gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         gm.IncreaseEnemyCount();
         castle = GameObject.FindGameObjectWithTag("Castle");
@@ -32,7 +33,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public void KillEnemy() {
         if (hp <= 0) {
-            gm.DecreaseEnemyCount();
             if (cell != null)
             {
                 foreach (CellBehaviour cel in cell)
@@ -42,12 +42,12 @@ public class EnemyBehaviour : MonoBehaviour {
             }
             if (soldiers != null)
             {
-                Debug.Log(soldiers.Count);
-                foreach (SoldierBrain soldier in soldiers)
-                {
-                    soldier.RemoveEnemy(false);
+                for (int i = 0; i <= soldiers.Count; i++) {
+                    soldiers.Peek().RemoveEnemy(false);
+                    soldiers.Pop();
                 }
             }
+            gm.DecreaseEnemyCount();
             gameObject.SetActive(false);
         }
     }
