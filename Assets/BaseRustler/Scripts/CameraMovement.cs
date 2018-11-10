@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour {
     Vector3 mouseStart, touchStart;
- 
+   public Text debug1, debug2;
+
+    void Start() {
+        debug1.text = debug2.text = "A";
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,7 +24,7 @@ public class CameraMovement : MonoBehaviour {
             Vector3 mouseDelta = Input.mousePosition - mouseStart;
             mouseDelta = new Vector3(mouseDelta.x,0,mouseDelta.y);
             /////
-            transform.Translate(mouseDelta * Time.deltaTime * Time.deltaTime);
+            transform.Translate(mouseDelta * Time.deltaTime / 10);
         }
         else if (Input.GetMouseButtonUp(0)) {
             mouseStart = Vector3.zero;
@@ -36,6 +41,8 @@ public class CameraMovement : MonoBehaviour {
                 Vector3 touchDelta = touchStart - (Vector3)touch.position;
                 touchDelta = new Vector3(touchDelta.x, 0, touchDelta.y);
                 transform.Translate(touchDelta * Time.deltaTime);
+                debug1.text = touchStart.ToString();
+                debug2.text = touch.position.ToString();
             }
         }
         if (Input.touchCount == 0) {

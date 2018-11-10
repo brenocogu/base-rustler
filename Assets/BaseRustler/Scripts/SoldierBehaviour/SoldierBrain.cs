@@ -61,10 +61,13 @@ public class SoldierBrain : MonoBehaviour {
 
     void OnCollisionExit(Collision coll)
     {
-        if (coll.gameObject == enemyTGbrain.gameObject)
+        if (enemyTarget != null)
         {
-            //soldierMove = null;
-            StopCoroutine(AttackCD());
+            if (coll.gameObject == enemyTGbrain.gameObject)
+            {
+                //soldierMove = null;
+                StopCoroutine(AttackCD());
+            }
         }
     }
 

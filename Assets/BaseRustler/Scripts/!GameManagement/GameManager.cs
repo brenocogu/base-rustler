@@ -12,24 +12,19 @@ public class GameManager : MonoBehaviour {
     int waveNumber;
     public SpawnSys spawnSys;
 
-    public Text goldTxt;
 
     public Button nextWave;
 
 
     public GameObject soldierPrefab;
 
-    float goldTime, matTime, foodTime;
-    int mattMax, foodMax;
+    float goldTime;
     bool gridIsVisible;
     // Use this for initialization
     void Start () {
         spawnedSoliders = new List<GameObject>();
 
         goldTime = 2;
-        matTime = 10;
-        foodTime = 20;
-
         gold = 550;
 
         
@@ -42,7 +37,6 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        goldTxt.text = "" + enemyCount;
         if (Input.GetKeyDown(KeyCode.Z)) {
             ToggleGrid();
         }
@@ -107,7 +101,7 @@ public class GameManager : MonoBehaviour {
 
     
 
-    void ToggleGrid() {
+    public void ToggleGrid() {
         gridIsVisible = !gridIsVisible;
         for (int i = 0; i < gridHolder.transform.childCount; i++) {
             gridHolder.transform.GetChild(i).SendMessage("ToggleVisibility", SendMessageOptions.DontRequireReceiver);
