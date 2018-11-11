@@ -33,7 +33,7 @@ public class CameraMovement : MonoBehaviour {
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
-            if (touch.deltaTime > 0.2f && (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary))
+            if (touch.deltaTime > 0.2f)
             {
                 if (touchStart == Vector3.zero) {
                     touchStart = touch.position;
