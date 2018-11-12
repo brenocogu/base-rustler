@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour {
         }
 
 
-        //DEV MOUSE CONTROLLER
+        #if UNITY_EDITOR
         if (Input.GetMouseButtonUp(0)) {
             RaycastHit hit = new RaycastHit();
             Ray clickRay = Camera.main.ScreenPointToRay((Vector2)Input.mousePosition);
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
                 }
             }
         }
-        //END DEV
+        #endif
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
