@@ -8,6 +8,9 @@ public class SoldierMoveStandBy : SoldierMove
 {
     public override void DoAction(SoldierBrain agentBrain)
     {
+        agentBrain.soldierAnim.SetInteger("runningNum", Random.Range(1, 3));
+        agentBrain.soldierAnim.SetBool("isIdle", false);
+        agentBrain.soldierAnim.SetBool("isRunning", true);
         if (!agentBrain.destinationSet)
         {
             agentBrain.destinationSet = true;

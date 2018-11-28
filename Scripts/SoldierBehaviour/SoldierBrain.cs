@@ -19,6 +19,7 @@ public class SoldierBrain : MonoBehaviour {
     public float agentSpeed;
     NavMeshAgent agentNav;
     public CellBehaviour cellHead;
+    public Animator soldierAnim;
     // Use this for initialization
     void Start() {
         agentNav = gameObject.GetComponent<NavMeshAgent>();
