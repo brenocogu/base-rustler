@@ -14,23 +14,28 @@ public class EnemyBehaviour : MonoBehaviour {
     [HideInInspector]
     public Stack<SoldierBrain> soldiers;
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
+        hp = 4;
         soldiers = new Stack<SoldierBrain>();
         gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         gm.IncreaseEnemyCount();
+        Reset();
+	}
+    void Reset() {
         castle = GameObject.FindGameObjectWithTag("Castle");
         nav = gameObject.GetComponent<NavMeshAgent>();
         nav.destination = castle.transform.position;
         nav.speed = speed;
-	}
-
+    }
     public void TakeHit(float damage) {
         hp -= damage;
         if (hp == 0) {
             KillEnemy();
         }
     }
-
+    void OnDisable() {
+        gm.DecreaseEnemyCount();
+    }
     public void KillEnemy() {
         if (hp <= 0) {
             if (cell != null)
@@ -47,7 +52,7 @@ public class EnemyBehaviour : MonoBehaviour {
                     soldiers.Pop();
                 }
             }
-            gm.DecreaseEnemyCount();
+            hp = 4;
             gameObject.SetActive(false);
         }
     }
@@ -61,6 +66,16 @@ public class EnemyBehaviour : MonoBehaviour {
 
         if (coll.gameObject.tag == "CellVision") {
             cell.Add(coll.gameObject.transform.parent.GetComponent<CellBehaviour>());
+        }
+    }
+
+    void Update() {
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            castle = GameObject.FindGameObjectWithTag("Castle");
+            nav = gameObject.GetComponent<NavMeshAgent>();
+            nav.destination = castle.transform.position;
+            nav.speed = speed;
         }
     }
 }

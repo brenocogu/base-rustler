@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     public GameObject chaozao, gridHolder, gridCellobj;
-    List<GameObject> spawnedSoliders; 
-    public float gold;
+    List<GameObject> spawnedSoliders;
     public LayerMask ignoredLayer;
     int enemyCount;
     int waveNumber;
@@ -18,31 +17,28 @@ public class GameManager : MonoBehaviour {
 
     public GameObject soldierPrefab;
 
-    float goldTime;
+
     bool gridIsVisible;
     // Use this for initialization
-    void Start () {
+    void Start() {
         spawnedSoliders = new List<GameObject>();
-
-        goldTime = 2;
-        gold = 550;
-
-        
 
         MountGrid();
         gridIsVisible = false;
-
-        InstantiateSoldiers(9);
+        PoolParty poolParty = gameObject.GetComponent<PoolParty>();
+        spawnedSoliders = poolParty.MakeListPool(soldierPrefab, 45, new Vector3(-59, 0.24f, 0));
+        ActiveSoldiers(9);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (Input.GetKeyDown(KeyCode.Z)) {
             ToggleGrid();
+            //ActiveSoldiers(3);
         }
 
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (Input.GetMouseButtonUp(0)) {
             RaycastHit hit = new RaycastHit();
             Ray clickRay = Camera.main.ScreenPointToRay((Vector2)Input.mousePosition);
@@ -65,7 +61,7 @@ public class GameManager : MonoBehaviour {
                 }
             }
         }
-        #endif
+#endif
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
@@ -94,12 +90,12 @@ public class GameManager : MonoBehaviour {
             }
             else if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary))
             {//Drag Movement
-                
+
             }
         }
-	}
+    }
 
-    
+
 
     public void ToggleGrid() {
         gridIsVisible = !gridIsVisible;
@@ -109,27 +105,23 @@ public class GameManager : MonoBehaviour {
     }
 
     void MountGrid() {
-        for (int x = 0; x < chaozao.GetComponent<Renderer>().bounds.size.x; x+=10) {
-            for(int z = 0; z < chaozao.GetComponent<Renderer>().bounds.size.z; z+=10){
-                Instantiate(gridCellobj, new Vector3(x - 6, +12,z), gridCellobj.transform.rotation, gridHolder.transform);
+        for (int x = 0; x < chaozao.GetComponent<Renderer>().bounds.size.x; x += 10) {
+            for (int z = 0; z < chaozao.GetComponent<Renderer>().bounds.size.z; z += 10) {
+                Instantiate(gridCellobj, new Vector3(x - 6, +12, z), gridCellobj.transform.rotation, gridHolder.transform);
             }
         }
         gridHolder.transform.position = new Vector3(chaozao.GetComponent<Renderer>().bounds.min.x, 1, chaozao.GetComponent<Renderer>().bounds.min.z);
     }
 
-    public void InstantiateSoldiers(int qtt) {
-        if (gold > 400)
+    public void ActiveSoldiers(int qtt) {
+        foreach (GameObject soldier in spawnedSoliders)
         {
-            gold -= 400;
-            for (int i = 0; i < qtt; i++)
-            {
-                spawnedSoliders.Add(Instantiate(soldierPrefab, new Vector3(-29.9f, 0, 0), transform.rotation));
+            if(qtt <= 0) { break; }
+            if (!soldier.activeSelf) {
+                soldier.SetActive(true);
+                qtt--;
             }
         }
-    }
-
-    void AddGold() {
-        gold += 250;
     }
 
     public void IncreaseEnemyCount() {

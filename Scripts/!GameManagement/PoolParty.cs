@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PoolParty : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public List<GameObject> MakeListPool(GameObject obj, int qtt, Vector3 position) {
+        List<GameObject> inPool = new List<GameObject>();
+        for (int i = qtt; i > 0; i--) {
+            //improved for Loop
+            GameObject objeto = (GameObject) Instantiate(obj, position, obj.transform.rotation);
+            objeto.SetActive(false);
+            inPool.Add(objeto);
+        }
+        return inPool;
+    }
 }
