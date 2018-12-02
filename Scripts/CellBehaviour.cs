@@ -67,7 +67,7 @@ public class CellBehaviour : MonoBehaviour {
     public void AssignSoldier(int iterations, List<GameObject> soldiers) { //TODO peso dos soldados: cada grid tem X espaços, e soldados tem pesos diferentes. e.g: Cavalaria tem peso 3
         for(int i = 0; i < iterations; i++) { 
             foreach (GameObject soldier in soldiers) {
-                if (soldier.GetComponent<SoldierBrain>() != null && !soldier.GetComponent<SoldierBrain>().assignedToarea) {
+                if (soldier.GetComponent<SoldierBrain>() != null && !soldier.GetComponent<SoldierBrain>().assignedToarea && soldier.activeSelf) {
                     soldier.GetComponent<SoldierBrain>().AssignArea(max, min);
                     soldier.GetComponent<SoldierBrain>().cellHead = gameObject.GetComponent<CellBehaviour>();
                     assingnedSoldiers.AddFirst(soldier);

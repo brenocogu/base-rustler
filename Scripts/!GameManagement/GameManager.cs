@@ -10,17 +10,22 @@ public class GameManager : MonoBehaviour {
     int enemyCount;
     int waveNumber;
     public SpawnSys spawnSys;
+    float touchDelta;
 
-
-    public Button nextWave;
+    public GameObject nextWave;
 
 
     public GameObject soldierPrefab;
 
+    int lastClicked;
 
-    bool gridIsVisible;
+    public Image remmoval, openn;
+
+
+    bool gridIsVisible, isRemoval;
     // Use this for initialization
     void Start() {
+        lastClicked = 0;
         spawnedSoliders = new List<GameObject>();
 
         MountGrid();
@@ -32,48 +37,22 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            ToggleGrid();
-            //ActiveSoldiers(3);
-        }
-
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonUp(0)) {
-            RaycastHit hit = new RaycastHit();
-            Ray clickRay = Camera.main.ScreenPointToRay((Vector2)Input.mousePosition);
-            if (Physics.Raycast(clickRay, out hit, Mathf.Infinity, ignoredLayer))
-            {
-                if (hit.collider.gameObject.tag == "GridCell" && gridIsVisible)
-                {
-                    if (Input.GetKey(KeyCode.X))
-                    {
-                        hit.collider.gameObject.SendMessage("DesselectCell", SendMessageOptions.DontRequireReceiver);
-                    }
-                    else
-                    {
-                        hit.collider.gameObject.SendMessage("SelectCell", spawnedSoliders, SendMessageOptions.DontRequireReceiver);
-                    }
-                }
-                if (hit.collider.gameObject.tag == "Castle")
-                {
-                    hit.collider.gameObject.SendMessage("SelectCastle", SendMessageOptions.DontRequireReceiver);
-                }
-            }
-        }
-#endif
-        if (Input.touchCount == 1)
+        if (gridIsVisible)
         {
-            Touch touch = Input.GetTouch(0);
-            if ((touch.deltaTime < 0.2f && touch.phase == TouchPhase.Ended))
-            { //Characterize an click in a mobile device OR for develop options, record the MouseButton0
+            if (Input.GetMouseButtonUp(0) && !Input.GetKey(KeyCode.LeftControl))
+            {
                 RaycastHit hit = new RaycastHit();
-                Ray clickRay = Camera.main.ScreenPointToRay(touch.position);
+                Ray clickRay = Camera.main.ScreenPointToRay((Vector2)Input.mousePosition);
                 if (Physics.Raycast(clickRay, out hit, Mathf.Infinity, ignoredLayer))
                 {
-                    if (hit.collider.gameObject.tag == "GridCell" && gridIsVisible)
+                    if (hit.collider.gameObject.tag == "EditorOnly") {
+                        Debug.Log("AAAAA");
+                    }
+                    if (hit.collider.gameObject.tag == "GridCell")
                     {
-                        if (Input.GetKey(KeyCode.X))
+                        if (isRemoval)
                         {
                             hit.collider.gameObject.SendMessage("DesselectCell", SendMessageOptions.DontRequireReceiver);
                         }
@@ -82,25 +61,75 @@ public class GameManager : MonoBehaviour {
                             hit.collider.gameObject.SendMessage("SelectCell", spawnedSoliders, SendMessageOptions.DontRequireReceiver);
                         }
                     }
-                    if (hit.collider.gameObject.tag == "Castle")
-                    {
-                        hit.collider.gameObject.SendMessage("SelectCastle", SendMessageOptions.DontRequireReceiver);
-                    }
                 }
             }
-            else if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary))
-            {//Drag Movement
-
+        }
+#endif
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+            if(touch.phase == TouchPhase.Began)
+            {
+                touchDelta = Time.time;
+            }
+            if (touch.phase == TouchPhase.Ended)
+            { //Characterize an click in a mobile device OR for develop options, record the MouseButton0
+                touchDelta = Time.time - touchDelta;
+                if (touchDelta < 0.2f)
+                {
+                    RaycastHit hit = new RaycastHit();
+                    Ray clickRay = Camera.main.ScreenPointToRay(touch.position);
+                    if (Physics.Raycast(clickRay, out hit, Mathf.Infinity, ignoredLayer))
+                    {
+                        if (hit.collider.gameObject.tag == "GridCell" && gridIsVisible)
+                        {
+                            if (isRemoval)
+                            {
+                                hit.collider.gameObject.SendMessage("DesselectCell", SendMessageOptions.DontRequireReceiver);
+                            }
+                            else
+                            {
+                                hit.collider.gameObject.SendMessage("SelectCell", spawnedSoliders, SendMessageOptions.DontRequireReceiver);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
-
-
-    public void ToggleGrid() {
-        gridIsVisible = !gridIsVisible;
-        for (int i = 0; i < gridHolder.transform.childCount; i++) {
-            gridHolder.transform.GetChild(i).SendMessage("ToggleVisibility", SendMessageOptions.DontRequireReceiver);
+    public void ToggleGrid(int clickType) {
+        if (lastClicked != clickType)
+        {
+            isRemoval = (clickType == 1) ? false : (clickType == 2) ? true : false;
+            if (!gridIsVisible) {
+                for (int i = 0; i < gridHolder.transform.childCount; i++)
+                {
+                    gridHolder.transform.GetChild(i).SendMessage("ToggleVisibility", SendMessageOptions.DontRequireReceiver);
+                }
+            }
+            switch (clickType) {
+                case 1:
+                    openn.color = new Color(0,0,0);
+                    remmoval.color = new Color(1, 1, 1);
+                    break;
+                case 2:
+                    remmoval.color = new Color(0, 0, 0);
+                    openn.color = new Color(1, 1, 1);
+                    break;
+            }
+            lastClicked = clickType;
+            StartCoroutine(WaitClick());
+        }
+        else {
+            gridIsVisible = false;
+            for (int i = 0; i < gridHolder.transform.childCount; i++)
+            {
+                gridHolder.transform.GetChild(i).SendMessage("ToggleVisibility", SendMessageOptions.DontRequireReceiver);
+            }
+            lastClicked = 0;
+            remmoval.color = new Color(1, 1, 1);
+            openn.color = new Color(1, 1, 1);
         }
     }
 
@@ -126,21 +155,29 @@ public class GameManager : MonoBehaviour {
 
     public void IncreaseEnemyCount() {
         enemyCount++;
-        if (nextWave.gameObject.activeSelf) {
-            nextWave.gameObject.SetActive(false);
+        if (nextWave.activeSelf) {
+            nextWave.SetActive(false);
         }
     }
 
     public void DecreaseEnemyCount(){
         enemyCount--;
-        if (enemyCount == 0) {
-            nextWave.gameObject.SetActive(true);
+        if (enemyCount == 0 && !nextWave.activeSelf) {
+            nextWave.SetActive(true);
         }
     }
 
     public void CallWave() {
         StartCoroutine(spawnSys.SpawnRoutine(waveNumber + 3));
         waveNumber++;
+    }
+
+    IEnumerator WaitClick() {
+        //shit happens and I don't know what to do to fix this one. When you click on a GUI button, it select an cell that's behind it. 
+        //My solution: put an enumerator to handle a time between click limits. I'm felling bad with what I've done.
+        gridIsVisible = false;
+        yield return new WaitForSeconds(0.1f);
+        gridIsVisible = true;
     }
 }
 

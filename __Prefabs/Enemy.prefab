@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4766671441175828}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GoblinOrcEvoluido_UVED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,13 +38,13 @@ GameObject:
   - component: {fileID: 195985541425518852}
   - component: {fileID: 114121105317753056}
   - component: {fileID: 54336181762252954}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1809126986190122
 GameObject:
   m_ObjectHideFlags: 1
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4789859186056822}
   - component: {fileID: 33408479817491172}
   - component: {fileID: 23919266219850492}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GoblinOrcEvoluido_LOW_Mesh1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

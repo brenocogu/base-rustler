@@ -1,17 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CameraMovement : MonoBehaviour {
     Vector3 mouseStart, touchStart;
-    public Text debug1, debug2;
 
     public Vector3 topZ, botZ, topX, botX;
-
-    void Start() {
-        debug1.text = debug2.text = "A";
-    }
 	
 	// Update is called once per frame
 	void LateUpdate () {
